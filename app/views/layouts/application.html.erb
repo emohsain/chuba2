@@ -11,8 +11,24 @@
   </head>
 
   <body>
-    <%= yield %>
-	<p class=”notice”><%= notice %></p>
+    <% if user_signed_in? %>
+      <ul>
+        <li><%= link_to 'Submit link', new_blog_path %></li>
+        <li><%= link_to 'Account', edit_user_registration_path %></li>
+        <li><%= link_to 'Sign out', destroy_user_session_path, :method => :delete %></li>
+      </ul>
+    <% else %>
+      <ul>
+        <li><%= link_to 'Sign up', new_user_registration_path %></li>
+        <li><%= link_to 'Sign in', new_user_session_path %></li>
+      </ul>
+    <% end %>
+	    <% flash.each do |name, msg| %>
+      <%= content_tag(:div, msg, class: "alert alert-info") %>
+	  <% end %>
+    <p class=”notice”><%= notice %></p>
 	<p class=”alert”><%= alert %></p>
-  </body>
+
+    <%= yield %>
+   </body>
 </html>
